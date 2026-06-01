@@ -1,0 +1,11 @@
+# Docker commands for this projects
+
+docker run -d -p 3306:3306 -v mysql-data:/var/lib/mysql --network=bankapp -e MYSQL_ROOT_PASSWORD=Test@123 -e MYSQL_DATABASE=bankappdb mysql
+
+# backened commands (application container)
+docker run -d -p 8080:8080 --network=bankapp ai-bankapp
+
+# to check whether mysql db is created or not
+docker exec -it 109276626d39 bash
+
+bash-5.1# mysql -u root -p
