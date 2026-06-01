@@ -1,0 +1,19 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    metrics_path: '/actuator/prometheus' # Spring Boot Actuator endpoint
+    static_configs:
+      - targets: ['bankapp-container:8080'] # Here bank-app' is the service name 
+
+  - job_name: 'docker'
+    metrics_path: '/metrics' 
+    static_configs:
+      - targets: ['cadvisor:8080'] 
+
+
+  - job_name: 'node-exporter'
+    metrics_path: '/metrics' 
+    static_configs:
+      - targets: ['node-exporter:9100'] 
