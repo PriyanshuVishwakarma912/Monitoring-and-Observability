@@ -1,7 +1,7 @@
 # services:
 #   bank-app:
 #     build:
-#       context: "./DevOps-BankApp"
+#       context: "./DevOps-BankApp"   # Context tells you the file location
 #       dockerfile: Dockerfile
 
 #     container_name: bank-app
