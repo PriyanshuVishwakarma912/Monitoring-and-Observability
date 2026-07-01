@@ -1,182 +1,125 @@
 # Monitoring and Observability Platform
-
-A comprehensive monitoring and observability solution built with Java backend services, responsive web UI, and containerized deployment capabilities. This platform provides real-time insights into system health, performance metrics, and application behavior across distributed environments.
-
-## 🎯 Overview
-
-This repository demonstrates enterprise-grade monitoring and observability practices, combining:
-- **Real-time metrics collection and visualization**
-- **Distributed tracing capabilities**
-- **Log aggregation and analysis**
-- **Health monitoring and alerting**
-- **Performance analytics dashboard**
-
-Built as a production-ready platform for tracking system health and observability across modern applications.
-
-## 🛠️ Technology Stack
-
-- **Backend:** Java (31.5%) - Core monitoring services and APIs
-- **Frontend:** HTML (39.6%), CSS (25.1%), JavaScript (2.7%) - Interactive monitoring dashboards
-- **Containerization:** Docker (1.1%) - Easy deployment and scaling
-- **Database:** MySQL - Metrics and logs storage
-- **Tools:** Spring Boot, Prometheus, Grafana (integrated components)
-
+ 
+A monitoring and observability setup built around a Spring Boot bank app (**DevOps-BankApp**). It shows how to watch a running app's health, metrics, and logs using Prometheus, Grafana, Loki, and other tools — all connected with Docker.
+ 
+## 🎯 What This Project Does
+ 
+This repo shows a full monitoring setup for a real app, including:
+- **Live metrics** from the app and the server (CPU, memory, requests)
+- **Container metrics** (how much resource each Docker container uses)
+- **Log collection** from the app, sent to one place for easy searching
+- **Dashboards** in Grafana to see everything visually
+- **Alerts** when something looks wrong
+## 🛠️ Tools Used
+ 
+| Tool | What It Does |
+|------|---------------|
+| **Spring Boot (Java)** | The bank app itself |
+| **MySQL** | Stores the app's data |
+| **Docker & Docker Compose** | Runs everything in containers |
+| **Prometheus** | Collects and stores metrics |
+| **Grafana** | Shows metrics and logs on dashboards |
+| **Loki** | Stores logs |
+| **Promtail** | Sends logs from the server to Loki |
+| **cAdvisor** | Tracks resource usage of each container |
+| **node-exporter** | Tracks resource usage of the whole machine |
+ 
 ## 📁 Project Structure
-
+ 
 ```
 Monitoring-and-Observability/
-├── backend/
-│   ├── services/         # Monitoring and metrics collection services
-│   ├── api/              # REST APIs for metrics and alerts
-│   └── config/           # Configuration management
-├── frontend/
-│   ├── dashboards/       # HTML dashboards for visualization
-│   ├── styles/           # CSS for responsive UI
-│   └── scripts/          # JavaScript for interactivity
-├── docker/
-│   ├── Dockerfile        # Container configuration
-│   └── docker-compose.yml
-├── infrastructure/
-│   └── monitoring-config/
-└── docs/                 # Documentation and guides
+├── DevOps-BankApp/          # The Spring Boot bank app
+│   ├── src/                 # App source code
+│   ├── Dockerfile           # Builds the app into a container
+│   └── README.md            # App-specific notes
+├── docker-compose.yml       # Starts the app + all monitoring tools together
+├── prometheus.yml           # Prometheus settings
+├── promtail-config.yml      # Promtail settings
+└── loki/
+    └── loki-config.yml      # Loki settings
 ```
-
+ 
 ## ✨ Key Features
-
-### Metrics Collection
-- Real-time application metrics collection
-- Custom metric definitions and tracking
-- Time-series data storage and retrieval
-
-### Dashboards & Visualization
-- Interactive web-based monitoring dashboards
-- Real-time system health overview
-- Performance trends and historical analysis
-- Custom dashboard creation
-
-### Alerting System
-- Threshold-based alerting
-- Multi-channel notifications (Email, Webhooks, Slack)
-- Alert history and management
-
-### Log Management
-- Centralized log aggregation
-- Full-text search capabilities
-- Log filtering and analysis tools
-
-### Health Monitoring
-- Application health checks
-- Service dependency monitoring
-- Uptime tracking and reporting
-
+ 
+### Metrics
+- Real-time app metrics (requests, response time, errors)
+- Server-level metrics (CPU, memory, disk)
+- Container-level metrics (per Docker container)
+### Logs
+- App logs collected automatically and sent to Loki
+- Searchable through Grafana
+### Dashboards
+- Visual dashboards in Grafana showing app health and system stats
+### Bank App Features
+- Sign up and log in (passwords stored safely with BCrypt)
+- Deposit, withdraw, and transfer money between accounts
+- Transaction history
+- Dark/light theme toggle
+- Health check at `/actuator/health`
 ## 🚀 Getting Started
-
-### Prerequisites
-
-- **Java 8+** (Java 11+ recommended)
-- **MySQL 8.0+**
-- **Docker & Docker Compose** (for containerized setup)
-- **Maven 3.6+** or **Gradle 7+**
-- Modern web browser (Chrome, Firefox, Safari, Edge)
-
-### Quick Start - Local Setup
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/PriyanshuVishwakarma912/Monitoring-and-Observability.git
-   cd Monitoring-and-Observability
-   ```
-
-2. **Set up the database:**
-   ```bash
-   mysql -u root -p -e "CREATE DATABASE monitoring_db;"
-   ```
-
-3. **Build the project:**
-   ```bash
-   mvn clean build
-   # or
-   gradle clean build
-   ```
-
-4. **Run the application:**
-   ```bash
-   mvn spring-boot:run
-   # or
-   gradle bootRun
-   ```
-
-5. **Access the platform:**
-   - Dashboard: http://localhost:8080
-   - API: http://localhost:8080/api
-   - Health Check: http://localhost:8080/actuator/health
-
-### Quick Start - Docker Setup (Recommended)
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/PriyanshuVishwakarma912/Monitoring-and-Observability.git
-   cd Monitoring-and-Observability
-   ```
-
-2. **Start all services:**
-   ```bash
-   docker-compose up -d --build
-   ```
-
-3. **Access the platform:**
-   - Dashboard: http://localhost:8080
-   - Database: localhost:3306
-
-4. **Stop services:**
-   ```bash
-   docker-compose down
-   ```
-
-## 📚 Documentation
-
-For detailed information, configuration guides, and advanced setup:
-- See [API Documentation](docs/API.md)
-- See [Configuration Guide](docs/CONFIGURATION.md)
-- See [Deployment Guide](docs/DEPLOYMENT.md)
-- See [Architecture Overview](docs/ARCHITECTURE.md)
-
-## 🔧 Configuration
-
-Environment variables for customization:
-
+ 
+### What You Need
+- **Docker & Docker Compose** installed
+- (Only if running without Docker) **Java 21** and **MySQL 8.0**
+### Easiest Way: Run With Docker
+ 
+1. **Clone the repo:**
 ```bash
-# Application
-APP_PORT=8080
-APP_ENV=development
-
-# Database
-DB_HOST=localhost
-DB_PORT=3306
-DB_NAME=monitoring_db
-DB_USER=root
-DB_PASSWORD=your_password
-
-# Monitoring
-METRICS_ENABLED=true
-LOGS_ENABLED=true
-ALERTS_ENABLED=true
+   git clone https://github.com/PriyanshuVishwakarma912/Monitoring-and-Observability.git
+   cd Monitoring-and-Observability
 ```
-
-## 📊 API Endpoints
-
-### Metrics APIs
-- `GET /api/metrics` - Get all metrics
-- `GET /api/metrics/{id}` - Get specific metric
-- `POST /api/metrics` - Create new metric
-
-### Dashboards APIs
-- `GET /api/dashboards` - Get all dashboards
-- `GET /api/dashboards/{id}` - Get dashboard details
-- `POST /api/dashboards` - Create custom dashboard
-
-### Health Check
-- `GET /actuator/health` - Application health status
-
-For complete API documentation, refer to the [API Guide](docs/API.md).
-
+ 
+2. **Start everything:**
+```bash
+   docker-compose up -d --build
+```
+ 
+3. **Open these in your browser:**
+   | Service | Address | Notes |
+   |---------|---------|-------|
+   | Bank App | http://localhost:8080 | Main app |
+   | Grafana | http://localhost:3001 | Dashboards (default login: admin/admin) |
+   | Prometheus | http://localhost:9090 | Raw metrics |
+   | Loki | http://localhost:3100 | Log storage (used through Grafana) |
+   | cAdvisor | http://localhost:8081 | Container stats |
+   | MySQL | localhost:3306 | Database |
+4. **Stop everything:**
+```bash
+   docker-compose down
+```
+ 
+### Run the App Alone (Without Docker)
+ 
+If you just want to run the bank app without the monitoring tools:
+ 
+```bash
+cd DevOps-BankApp
+ 
+# Create the database
+mysql -u root -p -e "CREATE DATABASE bankappdb;"
+ 
+# Run the app
+./mvnw spring-boot:run
+```
+ 
+Then visit http://localhost:8080
+ 
+## 🔧 Configuration
+ 
+Main settings used by Docker Compose:
+ 
+```bash
+# Database
+MYSQL_ROOT_PASSWORD=Test@123
+MYSQL_DATABASE=bankappdb
+ 
+# App connects to database using:
+SPRING_DATASOURCE_URL=jdbc:mysql://bankapp-mysql:3306/bankappdb
+```
+ 
+You can change these values in `docker-compose.yml` before starting the project.
+ 
+## 🩺 Health Check
+ 
+- App health: `http://localhost:8080/actuator/health`
+ 
